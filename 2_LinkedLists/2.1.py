@@ -1,7 +1,9 @@
-from linked_list import (Node, SLinkedList)
-
 # 2.1 Remove Dups: Write code to remove duplicates from an unsorted linked list.
 # Follow up: How would you solve this problem if a temporary buffer is not allowed?
+
+import unittest
+
+from linked_list import (Node, SLinkedList)
 
 # Solution 1:
 # O(N)
@@ -14,6 +16,7 @@ def remove_dups(llist):
         else:
             current.next = current.next.next
         current = current.next
+    return llist
 
 # Solution 2:
 # O(N^2)
@@ -30,6 +33,7 @@ def remove_dups_alt(llist):
                 compare_prev = compare
                 compare = compare.next
         current = current.next
+    return llist
     
 # Solution 3: Ideal - modified solution 2, since the compare-prev isn't needed if we just use compare as a runner and look at its next element
 # O(N^2)
@@ -43,6 +47,7 @@ def remove_dups_ideal(llist):
             else:              
                 runner = runner.next
         current = current.next
+    return llist
 
 def run_examples():
     print('\nExample 1:')
@@ -66,5 +71,23 @@ def run_examples():
     remove_dups_ideal(example3)
     example3.pretty_print()
 
+# Testing
+class Tests(unittest.TestCase):
+    
+    def test_remove_dups(self):
+        llist = SLinkedList()
+        llist.add_multi(2, 1, 3, 2, 4)
+        self.assertEqual(remove_dups(llist).data_list(), [2,1,3,4])
+    
+    def test_remove_dups_alt(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 3, 5, 3, 2, 4)
+        self.assertEqual(remove_dups_alt(llist).data_list(), [1,3,5,2,4])
+    
+    def test_remove_dups_ideal(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 2, 3, 4, 5, 3, 2)
+        self.assertEqual(remove_dups_ideal(llist).data_list(), [1,2,3,4,5])
+
 if __name__ == '__main__':
-    run_examples()
+    unittest.main()

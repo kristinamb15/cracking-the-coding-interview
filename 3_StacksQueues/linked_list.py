@@ -16,13 +16,15 @@ class SLinkedList:
     def __init__(self, head = None):
         self.head = head
     
+    # Basic printing of the data of each node in the linked list
     def print_list(self):
         current = self.head
         print('')
         while current is not None:
             print(current.data)
             current = current.next
-        
+
+    # Pushing the data from each node into a list in order - for use with pretty_print and testing 
     def data_list(self):
         current = self.head    
         data_list = []
@@ -31,10 +33,12 @@ class SLinkedList:
             current = current.next
         return data_list
     
+    # Prints the data of each node in the linked list with arrows
     def pretty_print(self):
         pretty_list = map(str, self.data_list())
         print('\n' + ' -> '.join(pretty_list))
 
+    # Add a new node with given data to the list
     def add_node(self, data):
         if self.head is None:
             new = Node(data)
@@ -46,10 +50,12 @@ class SLinkedList:
                 current = current.next
             tail.add_next(data)
 
+    # Add multiple new nodes with given data to the linked list
     def add_multi(self, *args):
         for data in args:
             self.add_node(data)
     
+    # Delete a node from the list
     def delete_node(self, data):
         if self.head is None:
             return None
@@ -66,6 +72,7 @@ class SLinkedList:
         
         return self.head
     
+    # Get the length of the linked list
     def length(self):
         length = 0
         current = self.head
@@ -73,14 +80,3 @@ class SLinkedList:
             length += 1
             current = current.next
         return length
-
-""" node1 = Node(1)
-node1.add_next(2)
-
-mylist = SLinkedList(node1)
-mylist.print_list()
-mylist.add_node(3)
-mylist.print_list()
-
-mylist.delete_node(2)
-mylist.pretty_print() """

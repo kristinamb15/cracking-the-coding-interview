@@ -1,4 +1,4 @@
-# Basic tree implementation
+# Basic tree and graph implementations
 
 class Node: 
     def __init__(self, data, is_bin = False):
@@ -8,6 +8,7 @@ class Node:
         self.left = None
         self.right = None
     
+    # Get all children of the node
     def get_children(self):
         if self.is_bin:
             if self.left is not None and self.right is not None:
@@ -22,6 +23,7 @@ class Node:
             child_list = [child.data for child in self.children]
         return child_list
     
+    # Add child to node - if binary tree, options to indicate Left or Right child
     def add_child(self, node, left = False, right = False):
         self.children.append(node)
         if left:
@@ -29,23 +31,27 @@ class Node:
         if right:
             self.right = node
     
+    # Add multiple children to node
     def add_children(self, *nodes):
         for node in nodes:
             self.add_child(node)
-
     
 class Tree:
     def __init__(self, root):
         self.root = root
 
+    # Add child node with given child_data to specified parent node
     def add_node(self, parent, child_data):
         new_node = Node(child_data)
         parent.children.append(new_node)
     
+    # Add multiple children to a specified parent node
     def add_multi(self, parent, *args):
         for x in args:
             self.add_node(parent, x)
     
+    # In-order traversal of (sub)tree from specified node
+    # Prints the left branch, current node, then right branch
     def in_order_traverse(self, node):
         if node is not None:
             if len(node.children) > 0:
@@ -54,6 +60,8 @@ class Tree:
             if len(node.children) > 1:
                 self.in_order_traverse(node.children[1])
     
+    # Pre-order traversal of (sub)tree from specified node
+    # Prints the current node, then child nodes
     def pre_order_traverse(self, node):
         if node is not None:
             print(node.data)
@@ -62,6 +70,8 @@ class Tree:
             if len(node.children) > 1:
                 self.pre_order_traverse(node.children[1])
     
+    # Post-order traversal of (sub)tree from specified node
+    # Prints the children, then the current node
     def post_order_traverse(self, node):
         if node is not None:
             if len(node.children) > 0:
@@ -99,40 +109,30 @@ class Tree:
                 
             parent_level = next_level
 
-""" ex1_root = Node(1)
-ex1_tree = Tree(ex1_root)
-ex1_tree.add_multi(ex1_root, 2, 3)
-ex1_tree.add_multi(ex1_root.children[0], 4, 5)
-ex1_tree.add_multi(ex1_root.children[1], 6)
-print('\nCustom defined print:')
-ex1_tree.print_bf()
-print('\nIn Order Traversal:')
-ex1_tree.in_order_traverse(ex1_tree.root)
-print('\nPre Order Traversal:')
-ex1_tree.pre_order_traverse(ex1_tree.root)
-print('\nPost Order Traversal:')
-ex1_tree.post_order_traverse(ex1_tree.root) """
-
 class Graph:
     def __init__(self, directed = False):
         self.edges = []
         self.nodes = set()
         self.directed = directed
     
+    # Add edge to graph between given nodes
     def add_edge(self, node1, node2):
         self.nodes.update({node1, node2})
         self.edges.append((node1, node2))
         if not self.directed:
             self.edges.append((node2, node1))
     
+    # Add multiple edges between nodes, given as tuples
     def add_edge_multi(self, *args):
         for x in args:
             self.add_edge(x[0], x[1])
 
+    # Prints ordered pairs of nodes representing edges between those nodes
     def print_edges(self):
         for edge in self.edges:
             print(f'({edge[0].data}, {edge[1].data})')
     
+    # Sets the visited state for each node to False - used in traversing/searching
     def set_state(self):
         nodes = set()
         for edge in self.edges:
@@ -141,8 +141,7 @@ class Graph:
         state = {node: False for node in nodes}
         return state
 
-
-
+# Generates edges between nodes and children
 def populate_edges(graph, *nodes):
     for node in nodes:
         for child in node.children:

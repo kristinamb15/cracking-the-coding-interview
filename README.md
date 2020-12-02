@@ -19,6 +19,7 @@ Compliation of my personal solutions to exercises found in the infamous *Crackin
 ## Other Notes
 
  - Most solutions have Big O time complexity noted in comments above the method/function.
+ - Many questions have multiple solutions given.
 
 <br>
 
@@ -44,7 +45,7 @@ Compliation of my personal solutions to exercises found in the infamous *Crackin
     ┃ ┣ 📜2.6.py
     ┃ ┣ 📜2.7.py
     ┃ ┣ 📜2.8.py
-    ┃ ┣ 📜linked_list.py            // Module for implementing singly linked list
+    ┃ ┣ 📜linked_list.py            // Module for implementing single linked list (written by me)
     ┃ ┗ 📜__init__.py
     ┣ 📂3_StacksQueues              // Solutions to Chapter 3: Stacks and Queues
     ┃ ┣ 📜3.1.py
@@ -58,7 +59,7 @@ Compliation of my personal solutions to exercises found in the infamous *Crackin
     ┃ ┣ 📜4.1.py
     ┃ ┣ 📜4.2.py
     ┃ ┣ 📜4.3.py
-    ┃ ┣ 📜trees.py                  // Module for implementing trees
+    ┃ ┣ 📜trees.py                  // Module for implementing trees (written by me)
     ┃ ┗ 📜__init__.py
     ┣ 📜.gitignore
     ┗ 📜README.md
