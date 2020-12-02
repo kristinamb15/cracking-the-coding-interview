@@ -2,6 +2,8 @@
 # The partition element x can be anywhere in the "right partition" - it doesn't have to be in the middle
 # Ex: 3, 5, 8, 5, 10, 2, 1 becomes 3, 1, 2, 10, 5, 5, 8
 
+import unittest
+
 from linked_list import (Node, SLinkedList)
 
 # Solution 1:
@@ -31,6 +33,8 @@ def partition(llist, value):
             head = llist.head
             runner_prev.next = runner.next
 
+    return llist
+
 # Solution 2:
 # O(N)
 def partition_alt(llist, value):
@@ -56,18 +60,23 @@ def partition_alt(llist, value):
     
     return part_list
 
+# Testing
+class Tests(unittest.TestCase):
 
-example1 = SLinkedList()
-example1.add_multi(3, 5, 8, 5, 10, 2, 1)
-partition(example1, 5)
-example1.pretty_print()
+    def test_partition_at_head(self):
+        llist = SLinkedList()
+        llist.add_multi(5, 8, 3, 5, 10, 2, 1)
+        self.assertEqual(partition(llist, 5).data_list(), [1,2,3,'*',5,8,5,10])
+    
+    def test_partition_not_at_head(self):
+        llist = SLinkedList()
+        llist.add_multi(3, 5, 8, 5, 10, 2, 1)
+        self.assertEqual(partition(llist, 5).data_list(), [1,2,3,'*',5,8,5,10])
+    
+    def test_partition_alt(self):
+        llist = SLinkedList()
+        llist.add_multi(3, 6, 7, 4, 3, 8, 5, 6, 2)
+        self.assertEqual(partition_alt(llist, 5).data_list(), [2,3,4,3,6,7,8,5,6])
 
-example2 = SLinkedList()
-example2.add_multi(5, 8, 3, 5, 10, 2, 1)
-partition(example2, 5)
-example2.pretty_print()
-
-example3 = SLinkedList()
-example3.add_multi(3, 6, 7, 4, 3, 8, 5, 6, 2)
-example3_part = partition_alt(example3, 5)
-example3_part.pretty_print()
+if __name__ == '__main__':
+    unittest.main()
