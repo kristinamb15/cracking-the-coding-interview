@@ -1,5 +1,7 @@
 # 2.2 Return Kth to Last: implement an algorithm to find teh kth to last element of a singly linked list.
 
+import unittest
+
 from linked_list import (Node, SLinkedList)
 
 # Solution 1:
@@ -16,8 +18,20 @@ def kth_to_last(llist, k):
         kth = llist_map[kindex]
     else:
         kth = None
-    print(str(kth))
+    return kth
 
-example1 = SLinkedList()
-example1.add_multi(1, 2, 3, 4, 5)
-kth_to_last(example1, 2)
+# Testing
+class Tests(unittest.TestCase):
+    
+    def test_kth_to_last_exists(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 2, 3, 4, 5)
+        self.assertEqual(kth_to_last(llist, 2), 4)
+    
+    def test_kth_to_last_not_exists(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 2, 3)
+        self.assertEqual(kth_to_last(llist, 4), None)
+
+if __name__ == '__main__':
+    unittest.main()

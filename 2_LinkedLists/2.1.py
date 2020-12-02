@@ -49,28 +49,6 @@ def remove_dups_ideal(llist):
         current = current.next
     return llist
 
-def run_examples():
-    print('\nExample 1:')
-    example1 = SLinkedList()
-    example1.add_multi(2, 1, 3, 2, 4)
-    example1.pretty_print()
-    remove_dups(example1)
-    example1.pretty_print()
-
-    print('\nExample 2:')
-    example2 = SLinkedList()
-    example2.add_multi(1, 3, 5, 3, 2, 4)
-    example2.pretty_print()
-    remove_dups_alt(example2)
-    example2.pretty_print()
-
-    print('\nExample 3:')
-    example3 = SLinkedList()
-    example3.add_multi(1, 2, 3, 4, 5, 3, 2)
-    example3.pretty_print()
-    remove_dups_ideal(example3)
-    example3.pretty_print()
-
 # Testing
 class Tests(unittest.TestCase):
     
