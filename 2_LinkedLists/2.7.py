@@ -1,5 +1,7 @@
 # 2.7 Intersection: Given two singly linked lists, determine if the two lists intersect. Return the intersecting node.
 
+import unittest
+
 from linked_list import (Node, SLinkedList)
 
 # Solution 1: Note that this solution isn't really correct - it compares the lists to see if they are the same from a certain point, but we need lists that have the same references
@@ -28,23 +30,9 @@ def intersect(llist1, llist2):
             cur1 = cur1.next
     
     if result:
-        print (str(result) + ": " + str(intersect_node.data))
+        return (result,intersect_node.data)
     else:
-        print(str(result))
-
-example1a = SLinkedList()
-example1a.add_multi(1, 2, 3, 4, 5)
-example1b = SLinkedList()
-example1b.add_multi(2, 3, 4, 5) 
- 
-intersect(example1a, example1b) # True, 2
-
-example2a = SLinkedList()
-example2a.add_multi(1, 2, 3, 4, 5)
-example2b = SLinkedList()
-example2b.add_multi(6, 7, 7, 8)
-
-intersect(example2a, example2b) # False
+        return result
 
 # Solution 2
 def list_intersect(llist1, llist2):
@@ -71,24 +59,45 @@ def list_intersect(llist1, llist2):
             cur1 = cur1.next
     
     if result:
-        print (str(result) + ": " + str(intersect_node.data))
+        return (result,intersect_node.data)
     else:
-        print(str(result))
+        return result
 
-node1 = Node(1)
-node2 = Node(2)
-node3 = Node(3)
-node4 = Node(4)
-node5 = Node(5)
+# Testing
+class Tests(unittest.TestCase):
+    
+    def test_intersect_true(self):
+        llist1 = SLinkedList()
+        llist1.add_multi(1, 2, 3, 4, 5)
+        llist2 = SLinkedList()
+        llist2.add_multi(2, 3, 4, 5) 
 
-node1.next = node2
-node2.next = node3
-node3.next = node4
-node4.next = node5
+        self.assertEqual(intersect(llist1, llist2), (True,2))
+    
+    def test_intersect_false(self):
+        llist1 = SLinkedList()
+        llist1.add_multi(1, 2, 3, 4, 5)
+        llist2 = SLinkedList()
+        llist2.add_multi(6, 7, 7, 8) 
 
-list1 = SLinkedList(node1)
-list2 = SLinkedList(node2)
-list1.pretty_print()
-list2.pretty_print()
+        self.assertFalse(intersect(llist1, llist2))
 
-list_intersect(list1, list2) # True, 2
+    def test_list_intersect_true(self):
+        node1 = Node(1)
+        node2 = Node(2)
+        node3 = Node(3)
+        node4 = Node(4)
+        node5 = Node(5)
+
+        node1.next = node2
+        node2.next = node3
+        node3.next = node4
+        node4.next = node5
+
+        llist1 = SLinkedList(node1)
+        llist2 = SLinkedList(node2)
+
+        self.assertEqual(list_intersect(llist1, llist2), (True,2))
+        
+if __name__ == '__main__':
+    unittest.main()
