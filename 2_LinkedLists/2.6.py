@@ -1,5 +1,7 @@
 # 2.6 Palindrome: Implement a function to check if a linked list is a palindrome.
 
+import unittest
+
 from linked_list import (Node, SLinkedList)
 
 def reverse_list(llist):
@@ -30,12 +32,20 @@ def palindrome(llist):
         curr1 = curr1.next
         curr2 = curr2.next
     
-    print(str(result))
+    return result
 
-example1 = SLinkedList()
-example1.add_multi(1, 2, 3, 4, 5)
-palindrome(example1) # False
+# Testing
+class Tests(unittest.TestCase):
 
-example2 = SLinkedList()
-example2.add_multi(1, 2, 3, 2, 1)
-palindrome(example2) # True
+    def test_palindrome_false(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 2, 3, 4, 5)
+        self.assertFalse(palindrome(llist))
+    
+    def test_palindrome_true(self):
+        llist = SLinkedList()
+        llist.add_multi(1, 2, 3, 2, 1)
+        self.assertTrue(palindrome(llist))
+
+if __name__ == '__main__':
+    unittest.main()
