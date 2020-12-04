@@ -1,6 +1,7 @@
 # 3.2 Stack Min: How would you design a stack which, in addition to push and pop, has a function min which returns the minimum element?
 # Push, pop, and min should all operate in O(1) time.
 
+import unittest
 from queue import LifoQueue
 
 # Solution 1:
@@ -51,9 +52,19 @@ class lifoStack:
             self.minList.pop()
         return item
 
-ex1 = lifoStack()
-ex1.pushMulti(5, 2, 3, 4, 1)
-print(ex1.values)
-print(ex1.stackMin())
-ex1.popStack()
-print(ex1.stackMin())
+# Testing
+class Tests(unittest.TestCase):
+
+    def setUp(self):
+        self.lstack = lifoStack()
+        self.lstack.pushMulti(5, 2, 3, 4, 1)
+
+    def test_stackMin(self):
+        self.assertEqual(self.lstack.stackMin(), 1)
+    
+    def test_stackMin_after_pop(self):
+        self.lstack.popStack()
+        self.assertEqual(self.lstack.stackMin(), 2)
+
+if __name__ == '__main__':
+    unittest.main()
