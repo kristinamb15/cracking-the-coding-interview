@@ -1,5 +1,7 @@
 # 3.1 Three in One: Describe how you could use a single array to implement three stacks.
 
+import unittest
+
 class MultiStack:
     def __init__(self, stack_quantity, max_size = None):
         self.stack_quantity = stack_quantity
@@ -22,15 +24,16 @@ class MultiStack:
     
     def addMulti(self, stack_no, *args):
         for x in args:
+            if self.isFull(stack_no):
+                stack_no += 1
             self.addItem(stack_no, x)
-            self.sizes[stack_no] += 1
     
     def popItem(self, stack_no):
         if self.isEmpty(stack_no):
             raise Exception("Stack is empty")
         else:
             self.sizes[stack_no] -= 1
-            self.values[stack_no].pop()
+            return self.values[stack_no].pop()
     
     def peekTop(self, stack_no):
         if self.isEmpty(stack_no):
@@ -45,7 +48,41 @@ class MultiStack:
             else:
                 print(f"Stack {i}: {self.values[i]}")
 
+# Testing
+class Tests(unittest.TestCase):
+    def setUp(self):
+        self.stacks =  MultiStack(3, 3)
+        self.stacks.addMulti(0, 1, 2, 3, 4)
 
-stacks = MultiStack(3, 3)
-stacks.addMulti(0, 1, 2, 3)
-stacks.printStacks()
+    def test_multi_stack_values(self):
+        self.assertEqual(self.stacks.values, [[1,2,3], [4], []])
+    
+    def test_multi_stack_sizes(self):
+        self.assertEqual(self.stacks.sizes, [3,1,0])
+    
+    def test_multi_stack_isFull_true(self):
+        self.assertTrue(self.stacks.isFull(0))
+
+    def test_multi_stack_isFull_false(self):
+        self.assertFalse(self.stacks.isFull(1))
+    
+    def test_multi_stack_isEmpty_true(self):
+        self.assertTrue(self.stacks.isEmpty(2))
+
+    def test_multi_stack_isEmpty_false(self):
+        self.assertFalse(self.stacks.isEmpty(1))
+    
+    def test_multi_stack_peekTop(self):
+        self.assertEqual(self.stacks.peekTop(0), 3)
+
+    def test_multi_stack_peekTop_err(self):
+        self.assertRaises(Exception, self.stacks.peekTop, 2)
+    
+    def test_multi_stack_popItem(self):
+        self.assertEqual(self.stacks.popItem(1), 4)
+    
+    def test_multi_stack_popItem_err(self):
+        self.assertRaises(Exception, self.stacks.popItem, 2)
+
+if __name__ == '__main__':
+    unittest.main()
