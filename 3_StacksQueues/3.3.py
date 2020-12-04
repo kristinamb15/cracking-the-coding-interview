@@ -83,6 +83,5 @@ class Tests(unittest.TestCase):
         self.stack_set.popAtRoll(1)
         self.assertEqual(self.stack_set.values, [[1,2,3], [4,5,7], [8]])
 
-
 if __name__ == '__main__':
     unittest.main()
