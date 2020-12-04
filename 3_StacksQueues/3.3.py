@@ -4,6 +4,8 @@
 # push and pop should behave identically to a single stack.
 # Follow up: Implement a function popAt(index) which performs a pop on a specific substack.
 
+import unittest
+
 class SetOfStacks:
     def __init__(self, cap = 10):
         self.cap = cap
@@ -49,6 +51,8 @@ class SetOfStacks:
                 self.values.pop(index)
                 self.sizes.pop(index)
                 self.main -= 1
+        
+        return item
     
     # Solution if we do rollover the bottom element of the next stack to keep previous stacks at cap
     def popAtRoll(self, index):
@@ -59,12 +63,26 @@ class SetOfStacks:
             self.sizes[index] += 1
             self.sizes[index + 1] -= 1
 
-    
+# Testing
+class Tests(unittest.TestCase):
 
-ex1 = SetOfStacks(3)
-ex1.pushMulti(1, 2, 3, 4, 5, 6, 7, 8)
-print(ex1.values)
-print(ex1.sizes)
-ex1.popAtRoll(1)
-print(ex1.values)
-print(ex1.sizes)
+    def setUp(self):
+        self.stack_set = SetOfStacks(3)
+        self.stack_set.pushMulti(1, 2, 3, 4, 5, 6, 7, 8)
+
+    def test_values(self):
+        self.assertEqual(self.stack_set.values, [[1,2,3], [4,5,6], [7,8]])
+    
+    def test_sizes(self):
+        self.assertEqual(self.stack_set.sizes, [3,3,2])
+    
+    def test_popAt(self):
+        self.assertEqual(self.stack_set.popAt(2), 8)
+    
+    def test_popAt_roll(self):
+        self.stack_set.popAtRoll(1)
+        self.assertEqual(self.stack_set.values, [[1,2,3], [4,5,7], [8]])
+
+
+if __name__ == '__main__':
+    unittest.main()
