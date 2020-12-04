@@ -1,7 +1,8 @@
 # 2.8 Loop Detection: Given a linked list which might contain a loop, implement an algorithm that returns the node at the beginning of the loop (if one exists)
 
-from linked_list import (Node, SLinkedList)
+import unittest
 
+from linked_list import (Node, SLinkedList)
 
 # Solution 1
 # O(N) - where N is the length up to the loop
@@ -12,9 +13,9 @@ def find_loop(llist):
         already.append(curr)
         curr = curr.next
     if curr is None:
-        print('No loops.')
+        return None
     else:
-        print('Loop at: ' + str(curr.data))
+        return curr.data
 
 # Solution 2
 # O(N) where N is length of loop ?
@@ -40,30 +41,41 @@ def find_loop_alt(llist):
             fast_runner = fast_runner.next
     
     if loop:
-        print('Loop at: ' + str(fast_runner.data))
+        return fast_runner.data
     else:
-        print('No loops')
-        
+        return None
 
+# Testing
+class Tests(unittest.TestCase):
 
-nodeA = Node("A")
-nodeB = Node("B")
-nodeC = Node("C")
-nodeD = Node("D")
-nodeE = Node("E")
+    def setUp(self):
+        self.nodeA = Node("A")
+        self.nodeB = Node("B")
+        self.nodeC = Node("C")
+        self.nodeD = Node("D")
+        self.nodeE = Node("E")
 
-nodeA.next = nodeB
-nodeB.next = nodeC
-nodeC.next = nodeD
-nodeD.next = nodeE
-nodeE.next = nodeC
+        self.nodeA.next = self.nodeB
+        self.nodeB.next = self.nodeC
+        self.nodeC.next = self.nodeD
+        self.nodeD.next = self.nodeE
+        self.nodeE.next = self.nodeC
 
-list1 = SLinkedList(nodeA)
-list2 = SLinkedList()
-list2.add_multi(1, 2, 3, 4, 5)
+        self.llist1 = SLinkedList(self.nodeA)
+        self.llist2 = SLinkedList()
+        self.llist2.add_multi(1, 2, 3, 4, 5)
 
-find_loop(list1)
-find_loop(list2)
+    def test_find_loop_yes(self):
+        self.assertEqual(find_loop(self.llist1), 'C')
+    
+    def test_find_loop_no(self):
+        self.assertEqual(find_loop(self.llist2), None)
+    
+    def test_find_loop_alt_yes(self):
+        self.assertEqual(find_loop_alt(self.llist1), 'C')
+    
+    def test_find_loop_alt_no(self):
+        self.assertEqual(find_loop_alt(self.llist2), None)
 
-find_loop_alt(list1)
-find_loop_alt(list2)
+if __name__ == '__main__':
+    unittest.main()
