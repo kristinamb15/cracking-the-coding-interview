@@ -1,5 +1,6 @@
 # 3.4 Queue via Stacks: Implement a MyQueue class which implements a queue using two stacks.
 
+import unittest
 from queue import LifoQueue
 
 class MyQueue:
@@ -22,21 +23,30 @@ class MyQueue:
     def pushMulti(self, *args):
         for x in args:
             self.pushQueue(x)
-
-    def printQueue(self):
-        printer = []
+    
+    def getQueue(self):
+        queue_list = []
         while not self.queueStack.empty():
             temp = self.queueStack.get()
-            printer.append(temp)
-        print(printer[::-1])
-        while len(printer) > 0:
-            temp = printer.pop()
+            queue_list.append(temp)
+        return queue_list[::-1]
+        while len(queue_list) > 0:
+            temp = queue_list.pop()
             self.queueStack.put(temp)
 
-ex1 = MyQueue()
-ex1.pushMulti(1, 2, 3)
-ex1.printQueue()
-ex1.popQueue()
-ex1.printQueue()
-ex1.pushQueue(0)
-ex1.printQueue()
+# Testing
+class Tests(unittest.TestCase):
+
+    def setUp(self):
+        self.myq = MyQueue()
+        self.myq.pushMulti(1, 2, 3)
+
+    def test_popQueue(self):
+        self.assertEqual(self.myq.popQueue(), 1)
+    
+    def test_pushQueue(self):
+        self.myq.pushQueue(0)
+        self.assertEqual(self.myq.getQueue(), [0, 3, 2, 1])
+
+if __name__ == '__main__':
+    unittest.main()
