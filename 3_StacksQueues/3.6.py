@@ -3,6 +3,9 @@
 # Create the data structrues to maintain this system and implement operations such enqueue, dequeueAny, dequeueDog, dequeueCat.
 # You may use the built in LinkedList data structure.
 
+import unittest
+from unittest.mock import patch
+
 from linked_list import (Node, SLinkedList)
 
 class Dog(Node):
@@ -53,22 +56,32 @@ Choose an animal (enter a number):
                 adopt = adopt_temp.next
                 adopt_temp.next = adopt.next
         
-        return adopt
+        return adopt            
 
-            
+# Testing
+class Tests(unittest.TestCase):
 
-ex1 = AnimalShelter()
-dog1 = Dog('Dorothy')
-dog2 = Dog('Winnie')
-cat1 = Cat('Whiskers')
-# ex1.enqueue_multi(dog1, cat1, dog2)
-# ex1.all_animals.pretty_print()
-# adopt = ex1.dequeue()
-# print(adopt.data)
-# ex1.all_animals.pretty_print()
+    def setUp(self):
+        self.example = AnimalShelter()
+        self.dog1 = Dog('Dorothy')
+        self.dog2 = Dog ('Winnie')
+        self.cat1 = Cat('Whiskers')
+        self.example.enqueue_multi(self.dog1, self.cat1, self.dog2)
 
-ex2 = AnimalShelter()
-ex2.enqueue_multi(dog1, dog2)
-adopt2 = ex2.dequeue()
-print(adopt2.data)
-ex2.all_animals.pretty_print()
+    # Mocking input 0 (any)
+    @patch('builtins.input', return_value=0)
+    def test_dequeue_any(self, input):
+        self.assertEqual(self.example.dequeue().data, ('Dorothy', 'dog'))
+
+    # Mocking input 1 (dog)
+    @patch('builtins.input', return_value=1)
+    def test_dequeue_dog(self, input):
+        self.assertEqual(self.example.dequeue().data, ('Dorothy', 'dog'))
+    
+    # Mocking input 2 (cat)
+    @patch('builtins.input', return_value=2)
+    def test_dequeue_cat(self, input):
+        self.assertEqual(self.example.dequeue().data, ('Whiskers', 'cat'))
+
+if __name__ == '__main__':
+    unittest.main()
