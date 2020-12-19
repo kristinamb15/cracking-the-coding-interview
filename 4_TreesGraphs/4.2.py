@@ -2,14 +2,17 @@
 
 from trees import (Node, Tree)
 
+import unittest
+
 # Solution 1:
 # O(NlogN) ???
 def create_min_tree(arr):
     new_node = Node(arr, True)
     new_tree = Tree(new_node)
     create_subtree(new_tree, new_tree.root)
-    new_tree.print_bf()
+    return new_tree
 
+# Appends a subtree to a given tree at a given subroot
 def create_subtree(tree, subroot):
     if subroot.data is not None:
         arr = subroot.data
@@ -34,7 +37,22 @@ def create_subtree(tree, subroot):
             right = Node(right_data, True)
             subroot.add_child(right, False, True)
             create_subtree(tree, right)      
-        
 
-ex1_array = [2, 4, 6, 8, 10, 20]
-create_min_tree(ex1_array)
+# Testing
+class Tests(unittest.TestCase):
+
+    def setUp(self):
+        self.test_array = [2, 4, 6, 8, 10, 20]
+        self.min_tree = create_min_tree(self.test_array)
+
+    def test_create_min_tree(self):
+        self.assertEqual(self.min_tree.root.data, 8)
+        self.assertEqual(self.min_tree.root.left.data, 4)
+        self.assertEqual(self.min_tree.root.right.data, 10)
+        self.assertEqual(self.min_tree.root.left.left.data, 2)
+        self.assertEqual(self.min_tree.root.left.right.data, 6)
+        self.assertIsNone(self.min_tree.root.right.left)
+        self.assertEqual(self.min_tree.root.right.right.data, 20)
+
+if __name__ == '__main__':
+    unittest.main()
