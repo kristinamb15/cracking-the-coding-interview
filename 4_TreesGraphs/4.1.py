@@ -2,13 +2,13 @@
 
 from trees import (Node, Graph, populate_edges)
 
+import unittest
+
 # Solution 1:
 # O(NlogN) ???
 def is_route(graph, node1, node2, state = None):
     if state is None:
         state = graph.set_state()
-    #print({key.data: state[key] for key in state})
-    print(node1.data, node2.data)
     if (node1, node2) in graph.edges:
         return True
     else:
@@ -19,23 +19,28 @@ def is_route(graph, node1, node2, state = None):
                     return True
                     break
 
-a = Node('a')
-b = Node('b')
-c = Node('c')
-r = Node('r')
-s = Node('s')
-t = Node('t')
-a.add_children(b, r)
-b.add_children(r, s, t)
-c.add_children(t)
-s.add_children(c)
-ex1 = Graph(True)
-populate_edges(ex1, a, b, c, r, s, t)
-#ex1.print_edges()
-print('\n')
-print(is_route(ex1, s, t)) # True
-r.add_child(b)
-ex1.add_edge(r,b)
-print(is_route(ex1, r, c))
+# Testing
+class Tests(unittest.TestCase):
 
+    def setUp(self):
+        self.a = Node('a')
+        self.b = Node('b')
+        self.c = Node('c')
+        self.r = Node('r')
+        self.s = Node('s')
+        self.t = Node('t')
+        self.a.add_children(self.b, self.r)
+        self.b.add_children(self.r, self.s, self.t)
+        self.c.add_children(self.t)
+        self.s.add_children(self.c)
+        self.graph = Graph(True)
+        populate_edges(self.graph, self.a, self.b, self.c, self.r, self.s, self.t)
 
+    def test_is_route_true(self):
+        self.assertTrue(is_route(self.graph, self.s, self.t))
+
+    def test_is_route_false(self):
+        self.assertFalse(is_route(self.graph, self.r, self.c))
+
+if __name__ == '__main__':
+    unittest.main()
