@@ -9,6 +9,13 @@ class Matrix:
         self.rows = rows
         self.columns = [[row[i] for row in self.rows] for i in range(len(self.rows))]
 
+    # Best Solution: in place - can be used on any list of lists
+    # O(N^2)
+    def rotate_90_best(self):
+        for i in range(self.rows[0]):
+            for row in self.rows[::-1]:
+                self.rows[i].append(row.pop(0))
+
     # Solution 1: not in place: created a new list of rows
     # O(N^2)
     def rotate_90(self):
@@ -47,6 +54,9 @@ class Tests(unittest.TestCase):
         self.my_matrix = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
         self.result = [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
     
+    def test_rotate_90_best(self):
+        self.assertEqual(self.my_matrix.rotate_90(), self.result)
+
     def test_rotate_90(self):
         self.assertEqual(self.my_matrix.rotate_90(), self.result)
     
